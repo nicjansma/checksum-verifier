@@ -68,7 +68,6 @@ Running `ChecksumVerifier -help` will print out the program's help screen:
          -removeMissing          Remove missing files (default: off)
          -ignoreNew              Don't add new files (default: off)
          -pretend                Show what would happen - don't write out XML (default: off)
-````
 
 ### Actions
 
