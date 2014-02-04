@@ -1,0 +1,8 @@
+*.suo
+console/bin
+console/obj
+lib/bin
+lib/obj
+test/bin
+test/obj
+StyleCop.Cache

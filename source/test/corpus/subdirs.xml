@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<db>
+  <files>
+    <file name="1" checksum="c4ca4238a0b923820dcc509a6f75849b" />
+    <file name="subdir\2" checksum="c81e728d9d4c2f636f067f89cc14862c" />
+  </files>
+</db>

@@ -1,0 +1,11 @@
+<Dictionary>
+    <Acronyms>
+        <CasingExceptions>
+            <Acronym>SHA</Acronym>
+            <Acronym>SHA1</Acronym>
+            <Acronym>SHA256</Acronym>
+            <Acronym>SHA512</Acronym>
+            <Acronym>MD5</Acronym>
+        </CasingExceptions>
+    </Acronyms>
+</Dictionary>
