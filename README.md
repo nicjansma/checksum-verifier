@@ -17,13 +17,13 @@ their contents have not been changed.
 A [checksum](http://en.wikipedia.org/wiki/Checksum) is a small sequence of 20-200 characters (depending on the specific
 algorithm used) that is calculated by reading the input file and applying a mathematical algorithm to its
 contents.  Even a file as large as 1TB will only have a small 20-200 character checksum, so checksums are an efficient
-way of saving the file's state without saving it's entire contents.  ChecksumVerifier uses the 
+way of saving the file's state without saving it's entire contents.  ChecksumVerifier uses the
 [MD5](http://en.wikipedia.org/wiki/MD5), [SHA-1](http://en.wikipedia.org/wiki/SHA-1),
 [SHA-256](http://en.wikipedia.org/wiki/SHA-256) and [SHA-512](http://en.wikipedia.org/wiki/SHA-512) algorithms,
 which are generally [collision resistant](http://en.wikipedia.org/wiki/Collision_resistant) enough for validating
 the integrity of file contents.
 
-One [example](#examples) usage of ChecksumVerifier is to verify the integrity of external hard drive backups.  After saving files 
+One [example](#examples) usage of ChecksumVerifier is to verify the integrity of external hard drive backups.  After saving files
 to an external disk, you can run `ChecksumVerifier -update` to calculate the checksums of all of the files on the
 external disk.  At a later date, if you want to validate that the files on the disk have not been added, removed or changed,
 you can run `ChecksumVerifier -verify` and it will re-calculate all of the disks' checksums and compare them to the original
@@ -100,7 +100,7 @@ If set, files will be scanned and checksums will be calculated, but the results 
 #### `-verify`
 
 Verifies the checksums of all the files listed in the database.  If there are any missing files, incorrect checksums,
-or new files (if `-showNew` is set), they will be listed in the program output and the program will exit with a 
+or new files (if `-showNew` is set), they will be listed in the program output and the program will exit with a
 non-zero error code.
 
 If the error code is -1, there was an error in running the `-verify` command, such as if the XML file was not found.
@@ -179,14 +179,14 @@ This is the default option.
 
 Files will be stored with their name relative to their `-basePath`.
 
-For example, using  `-basePath C:\folder`, a file with a path of `C:\folder\sub\file.ext` will be saved 
+For example, using  `-basePath C:\folder`, a file with a path of `C:\folder\sub\file.ext` will be saved
 as `sub\file.ext`.
 
 ##### `-fullPath`
 
 Files will be stored with their full path.
 
-For example, using  `-basePath C:\folder`, a file with a path of `C:\folder\sub\file.ext` will be saved 
+For example, using  `-basePath C:\folder`, a file with a path of `C:\folder\sub\file.ext` will be saved
 as `C:\folder\sub\file.ext`.
 
 This option could be used if you want to store files located on multiple disks in the same database.
@@ -195,20 +195,20 @@ This option could be used if you want to store files located on multiple disks i
 
 Files will be stored with their full path minus the drive letter.
 
-For example, using  `-basePath C:\folder`, a file with a path of `C:\folder\sub\file.ext` will be saved 
+For example, using  `-basePath C:\folder`, a file with a path of `C:\folder\sub\file.ext` will be saved
 as `folder\sub\file.ext`.
 
-This option could be used if you want to selectively store files that are located on a removable drive whose drive letter may 
+This option could be used if you want to selectively store files that are located on a removable drive whose drive letter may
 change.  You would later use the `-basePath` option and specify the new drive letter.
 
 #### Checksum Options
 
 These options change which checksum algorithm is used.  Each algorithm has a different digest size, which is the number
 of bits in the calculated checksum.  The more bits, the *more unlikely* it is that two random files with different
-contents will have the same checksum.  In other words, the more bits, the *higher confidence* you will have that your 
+contents will have the same checksum.  In other words, the more bits, the *higher confidence* you will have that your
 file has not changed if the checksum is the same as it was before.
 
-On the other hand, the higher the digest size, the longer it takes to calculate, and the more storage (bytes) are used 
+On the other hand, the higher the digest size, the longer it takes to calculate, and the more storage (bytes) are used
 in the database XML file.
 
 The default checksum is `-md5`.
@@ -229,33 +229,32 @@ Use the [SHA-256](http://en.wikipedia.org/wiki/SHA-256) checksum algorithm.  256
 
 Use the [SHA-512](http://en.wikipedia.org/wiki/SHA-512) checksum algorithm.  512 bit digest.
 
-<a name="examples"></a>
-## Examples
+## Examples <a name="examples"></a>
 
 ### Verifying Files Saved to an External Hard Drive
 
 Scenario: You have thousands of photos that you want to save to an external hard drive so you can ship it to a friend
-who lives in another country.  You want to ensure that when they get the drive, they can validate that the files have 
+who lives in another country.  You want to ensure that when they get the drive, they can validate that the files have
 not been changed or corrupted during shipping.
 
 Here are the steps you would take:
 
-1. Save all of the files to the external hard disk via any method you want (Windows File Explorer, `xcopy`, `robocopy`, 
+1. Save all of the files to the external hard disk via any method you want (Windows File Explorer, `xcopy`, `robocopy`,
     etc).
-    
+
 2. From the command prompt, `cd E:`, where `E:` is your external hard drive's disk letter.
 
 3. Run the following `-update` command to generate the ChecksumVerifier database:
-    
+
     ````
     ChecksumVerifier.exe -db photos.xml -update -recurse
     ````
 
 4. After the `files.xml` database has been generated, you could copy the database to your computer for safe-keeping,
     then un-mount the disk and send it to your friend.
-    
+
 5. Once your friend receives the disk, they can run `-verify` to ensure that no files were added, removed or changed.
-    You could even email them your copy of `files.xml` to ensure their version was not tampered with. 
+    You could even email them your copy of `files.xml` to ensure their version was not tampered with.
 
     ````
     ChecksumVerifier.exe -db photos.xml -verify -shownew
