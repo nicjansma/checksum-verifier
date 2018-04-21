@@ -100,6 +100,11 @@ namespace ChecksumVerifier
         private static bool _updatePretend = false;
 
         /// <summary>
+        /// Updates existing files
+        /// </summary>
+        private static bool _updateExisting = false;
+
+        /// <summary>
         /// ChecksumVerifier startup
         /// </summary>
         /// <param name="args">Argument list</param>
@@ -147,7 +152,7 @@ namespace ChecksumVerifier
                 //
                 // Update checksums
                 //
-                UpdateChecksumsResult result = engine.UpdateChecksums(_updateIgnoreNew, _updateRemoveMissing, _updatePretend);
+                UpdateChecksumsResult result = engine.UpdateChecksums(_updateIgnoreNew, _updateRemoveMissing, _updatePretend, _updateExisting);
 
                 returnCode = result.Success ? 0 : 1;
             }
@@ -306,6 +311,10 @@ namespace ChecksumVerifier
 
                     case "-PRETEND":
                         _updatePretend = true;
+                        break;
+
+                    case "-UPDATEEXISTING":
+                        _updateExisting = true;
                         break;
 
                     default:
@@ -480,6 +489,7 @@ namespace ChecksumVerifier
             Console.WriteLine("-update options:");
             Console.WriteLine("     -removeMissing          Remove missing files (default: off)");
             Console.WriteLine("     -ignoreNew              Don't add new files (default: off)");
+            Console.WriteLine("     -updateExisting         Verifies the Checksums of all existing files and updates the database on changes (default: off)");
             Console.WriteLine("     -pretend                Show what would happen - don't write out XML (default: off)");
         }        
     }

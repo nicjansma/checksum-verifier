@@ -1,8 +1,8 @@
 # ChecksumVerifier
 
-v1.0.0
+v1.1.0
 
-Copyright 2014 Nic Jansma
+Copyright 2018 Nic Jansma
 
 [http://nicj.net](http://nicj.net)
 
@@ -33,41 +33,44 @@ database to see if any files have been changed in any way.
 
 Running `ChecksumVerifier -help` will print out the program's help screen:
 
-    Usage: ChecksumVerifier.exe [-update | -verify] -db [xml file] [options]
+```
+Usage: ChecksumVerifier.exe [-update | -verify] -db [xml file] [options]
 
-    actions:
-         -update:                Update checksum database
-         -verify:                Verify checksum database
+actions:
+     -update:                Update checksum database
+     -verify:                Verify checksum database
 
-    required:
-         -db [xml file]          XML database file
+required:
+     -db [xml file]          XML database file
 
-    options:
-         -match [match]          Files to match (glob pattern such as * or *.jpg or ??.foo) (default: *)
-         -exclude [match]        Files to exclude (glob pattern such as * or *.jpg or ??.foo) (default: empty)
-         -basePath [path]        Base path for matching (default: current directory)
-         -r, -recurse            Recurse (directories only, default: off)
+options:
+     -match [match]          Files to match (glob pattern such as * or *.jpg or ??.foo) (default: *)
+     -exclude [match]        Files to exclude (glob pattern such as * or *.jpg or ??.foo) (default: empty)
+     -basePath [path]        Base path for matching (default: current directory)
+     -r, -recurse            Recurse (directories only, default: off)
 
-    path storage options:
-         -relativePath           Relative path (default)
-         -fullPath               Full path
-         -fullPathNodrive        Full path - no drive letter
+path storage options:
+     -relativePath           Relative path (default)
+     -fullPath               Full path
+     -fullPathNodrive        Full path - no drive letter
 
-    checksum options:
-         -md5                    MD5 (default)
-         -sha1                   SHA-1
-         -sha256                 SHA-2 256 bits
-         -sha512                 SHA-2 512 bits
+checksum options:
+     -md5                    MD5 (default)
+     -sha1                   SHA-1
+     -sha256                 SHA-2 256 bits
+     -sha512                 SHA-2 512 bits
 
-    -verify options:
-         -ignoreMissing          Ignore missing files (default: off)
-         -showNew                Show new files (default: off)
-         -ignoreChecksum         Don't calculate checksum (default: off)
+-verify options:
+     -ignoreMissing          Ignore missing files (default: off)
+     -showNew                Show new files (default: off)
+     -ignoreChecksum         Don't calculate checksum (default: off)
 
-    -update options:
-         -removeMissing          Remove missing files (default: off)
-         -ignoreNew              Don't add new files (default: off)
-         -pretend                Show what would happen - don't write out XML (default: off)
+-update options:
+     -removeMissing          Remove missing files (default: off)
+     -ignoreNew              Don't add new files (default: off)
+     -updateExisting         Verifies the Checksums of all existing files and updates the database on changes (default: off)
+     -pretend                Show what would happen - don't write out XML (default: off)
+ ```
 
 ### Actions
 
@@ -90,6 +93,12 @@ If set, if files in the database are no longer on disk, they will be removed.
 Default: `off`
 
 If set, new files on the disk will not be added to the database.
+
+##### `-updateExisting`
+
+Default: `off`
+
+If set, verifies the Checksums of all existing files and updates the database on changes.
 
 ##### `-pretend`
 
@@ -149,7 +158,7 @@ Must be a DOS glob pattern, such as `*` or `*.jpg` or `??.foo`.
 
 ##### `-exclude [match]`
 
-Default: `` (empty)
+Default: (empty)
 
 Files to exclude.
 
@@ -246,9 +255,9 @@ Here are the steps you would take:
 
 3. Run the following `-update` command to generate the ChecksumVerifier database:
 
-    ````
-    ChecksumVerifier.exe -db photos.xml -update -recurse
-    ````
+````
+ChecksumVerifier.exe -db photos.xml -update -recurse
+````
 
 4. After the `files.xml` database has been generated, you could copy the database to your computer for safe-keeping,
     then un-mount the disk and send it to your friend.
@@ -256,12 +265,13 @@ Here are the steps you would take:
 5. Once your friend receives the disk, they can run `-verify` to ensure that no files were added, removed or changed.
     You could even email them your copy of `files.xml` to ensure their version was not tampered with.
 
-    ````
-    ChecksumVerifier.exe -db photos.xml -verify -shownew
-    ````
+````
+ChecksumVerifier.exe -db photos.xml -verify -shownew
+````
 
 6. If any files were added, removed or changed, the program will list them and return a non-zero exit code.
 
 ## Version History
 
+* v1.1.0 - 2018-04-21: Added `-updateExisting` update option
 * v1.0.0 - 2014-02-02: Initial version

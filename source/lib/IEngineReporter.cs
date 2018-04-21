@@ -84,5 +84,11 @@ namespace ChecksumVerifier
         /// </summary>
         /// <param name="badFiles">A list of bad files</param>
         void VerifyingChecksumsCompleted(ReadOnlyCollection<BadFile> badFiles);
+
+        /// <summary>
+        /// The Engine updated a file's Checksum
+        /// </summary>
+        /// <param name="filePath">File updated</param>
+        void UpdatedFile(string filePath);
     }
 }

@@ -147,6 +147,12 @@ namespace ChecksumVerifier
                     }
                 }
             }
-        }                
+        }
+
+        /// <inheritdoc />
+        public void UpdatedFile(string fileName)
+        {
+            Console.WriteLine("Changes in {0}", fileName);
+        }
     }
 }

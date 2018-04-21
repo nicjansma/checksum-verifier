@@ -71,5 +71,10 @@ namespace ChecksumVerifier
         public void VerifyingChecksumsCompleted(ReadOnlyCollection<BadFile> badFiles)
         {
         }
+
+        /// <inheritdoc />
+        public void UpdatedFile(string fileName)
+        {
+        }
     }
 }

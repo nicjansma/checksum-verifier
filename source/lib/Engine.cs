@@ -153,15 +153,16 @@ namespace ChecksumVerifier
 
             _reporter.LoadingDatabaseFromFileCompleted(_filesToCheck.Count);
         }
-        
+
         /// <summary>
         /// Updates checksums and finds new files
         /// </summary>
         /// <param name="ignoreNew">Ignore new files</param>
         /// <param name="removeMissing">Remove missing files</param>
         /// <param name="pretend">Don't save changes to the database</param>
+        /// <param name="updateExisting">Update existing files's checksums</param>
         /// <returns>True on success</returns>
-        public UpdateChecksumsResult UpdateChecksums(bool ignoreNew, bool removeMissing, bool pretend)
+        public UpdateChecksumsResult UpdateChecksums(bool ignoreNew, bool removeMissing, bool pretend, bool updateExisting = false)
         {           
             int filesUpdated = 0;
 
@@ -171,6 +172,24 @@ namespace ChecksumVerifier
             }
 
             _reporter.UpdatingChecksums(_db.FileCount());
+
+            // if updating existing checksums, do that first
+            if (updateExisting)
+            {
+                foreach (FileChecksum fc in _db.Files)
+                {
+                    if (File.Exists(fc.FilePath))
+                    {
+                        // build a list of files to remove first
+                        // add file to database
+                        if (_db.UpdateFile(fc.FilePath, _basePath, _pathType, _checksumType))
+                        {
+                            _reporter.UpdatedFile(fc.FilePath);
+                            filesUpdated++;
+                        }
+                    }
+                }
+            }
 
             // if adding new files, find those missing in the XML DB
             if (!ignoreNew)

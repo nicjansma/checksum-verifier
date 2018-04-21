@@ -54,7 +54,8 @@ namespace ChecksumVerifier
         {
             get
             {
-                return _fileLookup.Values;
+                // return a clone so it can be iterated on
+                return new Dictionary<string, FileChecksum>(_fileLookup).Values;
             }
         }
 
@@ -147,6 +148,35 @@ namespace ChecksumVerifier
 
             // return the checksum
             return fc.Checksum;
+        }
+
+        /// <summary>
+        /// Updates a file's checksum
+        /// </summary>
+        /// <param name="fileName">File to update</param>
+        /// <param name="basePath">Base path</param>
+        /// <param name="pathType">Path type</param>
+        /// <param name="checksumType">Checksum type</param>
+        /// <returns>True if the file was updated</returns>
+        public bool UpdateFile(string fileName, string basePath, PathType pathType, ChecksumType checksumType)
+        {
+            // load file checksum
+            FileChecksum fc = new FileChecksum(fileName, basePath, pathType, checksumType);
+
+            if (_fileLookup.ContainsKey(fc.ResolvedFileName))
+            {
+                // determine if the checksums are different
+                if (_fileLookup[fc.ResolvedFileName].Checksum != fc.Checksum)
+                {
+                    _fileLookup[fc.ResolvedFileName] = fc;
+
+                    _hasChanges = true;
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
