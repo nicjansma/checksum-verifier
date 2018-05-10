@@ -23,14 +23,21 @@ namespace ChecksumVerifier
         {
             string outputString = String.Format(CultureInfo.InvariantCulture, format, list);
 
-            // trim string if needed
-            if (outputString.Length > Console.BufferWidth - 1)
+            if (Console.IsOutputRedirected)
             {
-                outputString = outputString.Substring(0, Console.BufferWidth - 4) + "...";
+                Console.WriteLine(outputString);
             }
+            else
+            {
+                // trim string if needed
+                if (outputString.Length > Console.BufferWidth - 1)
+                {
+                    outputString = outputString.Substring(0, Console.BufferWidth - 4) + "...";
+                }
         
-            Console.CursorLeft = 0;
-            Console.Write(outputString.PadRight(Console.BufferWidth - 1, ' '));
+                Console.CursorLeft = 0;
+                Console.Write(outputString.PadRight(Console.BufferWidth - 1, ' '));
+            }
         }
 
         /// <inheritdoc />
