@@ -69,7 +69,7 @@ namespace ChecksumVerifier
         public static Database FromFile(string fileName, string basePath, PathType pathType)
         {
             // ensure file exists first
-            if (!File.Exists(fileName))
+            if (!FileUtils.ExistsLong(fileName))
             {
                 // otherwise, return a new empty Database
                 return new Database(fileName);

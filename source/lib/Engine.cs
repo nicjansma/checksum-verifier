@@ -178,7 +178,7 @@ namespace ChecksumVerifier
             {
                 foreach (FileChecksum fc in _db.Files)
                 {
-                    if (File.Exists(fc.FilePath))
+                    if (FileUtils.ExistsLong(fc.FilePath))
                     {
                         // build a list of files to remove first
                         // add file to database
@@ -219,7 +219,7 @@ namespace ChecksumVerifier
 
                 foreach (FileChecksum fc in _db.Files)
                 {
-                    if (!File.Exists(fc.FilePath))
+                    if (!FileUtils.ExistsLong(fc.FilePath))
                     {
                         // build a list of files to remove first
                         filesToRemove.Add(fc.ResolvedFileName);
@@ -270,7 +270,7 @@ namespace ChecksumVerifier
                 throw new InvalidOperationException("You must scan files before verifying checksums");
             }
 
-            if (!Directory.Exists(_basePath))
+            if (!FileUtils.DirectoryExistsLong(_basePath))
             {
                 return new VerifyChecksumsResult(false, null);
             }
@@ -302,7 +302,7 @@ namespace ChecksumVerifier
                 checkedFiles.Add(fc.ResolvedFileName, 1);
 
                 // determine if the file is missing from the dist
-                if (!File.Exists(fc.FilePath))
+                if (!FileUtils.ExistsLong(fc.FilePath))
                 {
                     if (!ignoreMissing)
                     {

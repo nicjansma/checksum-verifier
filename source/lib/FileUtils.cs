@@ -8,6 +8,7 @@ namespace ChecksumVerifier
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using System.Linq;
     using System.Security.Cryptography;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -15,7 +16,7 @@ namespace ChecksumVerifier
     /// <summary>
     /// File utilities
     /// </summary>
-    internal static class FileUtils
+    public static class FileUtils
     {
         /// <summary>
         /// Gets all files, ignoring UnauthorizedAccessException's
@@ -36,7 +37,7 @@ namespace ChecksumVerifier
 
                 if (recurse)
                 {
-                    foreach (string subDir in Directory.GetDirectories(basePath))
+                    foreach (string subDir in GetDirectories(basePath))
                     {
                         // add all files in subdirs
                         string newPath = Path.Combine(basePath, subDir);                    
@@ -61,7 +62,7 @@ namespace ChecksumVerifier
         /// <returns>List of files in the specified directory</returns>
         public static string[] GetFilesInDirectory(string dir, string exclude, string match)
         {
-            if (!Directory.Exists(dir))
+            if (!FileUtils.DirectoryExistsLong(dir))
             {
                 return new string[0];
             }
@@ -69,7 +70,7 @@ namespace ChecksumVerifier
             try
             {
                 // gets all files in this directory
-                string[] files = Directory.GetFiles(dir, match, SearchOption.TopDirectoryOnly);
+                string[] files = GetFiles(dir, match, SearchOption.TopDirectoryOnly);
 
                 // now we have to apply our custom exlcusion patterns
                 if (!String.IsNullOrEmpty(exclude))
@@ -140,10 +141,21 @@ namespace ChecksumVerifier
                         break;
                 }
 
-                // compute hash from file
-                using (StreamReader fileReader = new StreamReader(fileName))
+                try
                 {
-                    hash = ByteHashToString(hasher.ComputeHash(fileReader.BaseStream));
+                    // compute hash from file
+                    using (StreamReader fileReader = new StreamReader(fileName))
+                    {
+                        hash = ByteHashToString(hasher.ComputeHash(fileReader.BaseStream));
+                    }
+                }
+                catch (IOException)
+                {
+                    // try again with long path
+                    using (StreamReader fileReader = new StreamReader(@"\\?\" + fileName))
+                    {
+                        hash = ByteHashToString(hasher.ComputeHash(fileReader.BaseStream));
+                    }
                 }
             }
             catch (IOException)
@@ -178,5 +190,72 @@ namespace ChecksumVerifier
 
             return str.ToString();
         }
+
+        /// <summary>
+        /// Determines if the file exists (supporting Long Paths)
+        /// </summary>
+        /// <param name="path">Path</param>
+        /// <returns>True if the file exists</returns>
+        public static Boolean ExistsLong(string path)
+        {
+             return File.Exists(path) || File.Exists(@"\\?\" + path);
+        }
+
+        /// <summary>
+        /// Determines if the directory exists (supporting Long Paths)
+        /// </summary>
+        /// <param name="path">Path</param>
+        /// <returns>True if the directory exists</returns>
+        public static Boolean DirectoryExistsLong(string path)
+        {
+             return Directory.Exists(path) || Directory.Exists(@"\\?\" + path);
+        }
+
+        /// <summary>
+        /// Gets all of the directories under a path
+        /// </summary>
+        /// <param name="path">Path</param>
+        /// <returns>Directories under the path</returns>
+        public static string[] GetDirectories(String path)
+        {
+            String[] directories;
+
+            try
+            {
+                directories = Directory.GetDirectories(path);
+            }
+            catch (IOException)
+            {
+                // try again with long path
+                directories = Directory.GetDirectories(@"\\?\" + path).Select(s => s.Replace(@"\\?\", "")).ToArray();
+            }
+
+            return directories;
+        }
+
+        /// <summary>
+        /// Gets all matching files
+        /// </summary>
+        /// <param name="dir">Directory</param>
+        /// <param name="match">Files match</param>
+        /// <param name="searchOption">Search options</param>
+        /// <returns>Matching files</returns>
+        private static string[] GetFiles(String dir, String match, SearchOption searchOption)
+        {
+            string[] files;
+
+            try
+            {
+                files = Directory.GetFiles(dir, match, SearchOption.TopDirectoryOnly);
+            }
+            catch (IOException)
+            {
+                // try again with long path
+                files = Directory.GetFiles(@"\\?\" + dir, match, SearchOption.TopDirectoryOnly).Select(s => s.Replace(@"\\?\", "")).ToArray();
+            }
+
+            return files;
+    }
+
     }
 }

@@ -355,11 +355,11 @@ namespace ChecksumVerifier
 
                 _matchType = MatchType.Wildcard;
             }
-            else if (File.Exists(_matchPattern))
+            else if (FileUtils.ExistsLong(_matchPattern))
             {
                 _matchType = MatchType.File;
             }
-            else if (Directory.Exists(_matchPattern))
+            else if (FileUtils.DirectoryExistsLong(_matchPattern))
             {
                 _matchType = MatchType.Directory;
             }
@@ -395,7 +395,7 @@ namespace ChecksumVerifier
                 try
                 {
                     // only complain if the file exists but we can't read it
-                    if (File.Exists(_xmlFileName))
+                    if (FileUtils.ExistsLong(_xmlFileName))
                     {
                         file = File.OpenRead(_xmlFileName);
                         file.Close();
@@ -426,7 +426,7 @@ namespace ChecksumVerifier
             // -basePath
             //
             _basePath = _basePath.TrimEnd('\\');
-            if (!Directory.Exists(_basePath))
+            if (!FileUtils.DirectoryExistsLong(_basePath))
             {
                 Console.WriteLine("Base path {0} does not exist", _basePath);
                 return false;

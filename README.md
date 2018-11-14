@@ -1,6 +1,6 @@
 # ChecksumVerifier
 
-v1.2.0
+v1.3.0
 
 Copyright 2018 Nic Jansma
 
@@ -273,6 +273,7 @@ ChecksumVerifier.exe -db photos.xml -verify -shownew
 
 ## Version History
 
+* v1.3.0 - 2018-11-14: Supports Long File Path
 * v1.2.0 - 2018-05-09: Don't set cursor if output is redirected
 * v1.1.0 - 2018-04-21: Added `-updateExisting` update option
 * v1.0.0 - 2014-02-02: Initial version
