@@ -26,7 +26,7 @@ namespace ChecksumVerifier
         /// <param name="match">Match pattern</param>
         /// <param name="recurse">Recursive into subdirectories</param>
         /// <returns>List of files found</returns>
-        public static List<string> GetFilesRecursive(string basePath, string exclude, string match, bool recurse)
+        public static IEnumerable<string> GetFilesRecursive(string basePath, string exclude, string match, bool recurse)
         {
             List<string> newFiles = new List<string>();
 
@@ -56,13 +56,13 @@ namespace ChecksumVerifier
         /// <summary>
         /// Gets all files in the specified directory
         /// </summary>
-        /// <param name="dir">Directory to scan</param>
+        /// <param name="directory">Directory to scan</param>
         /// <param name="exclude">Exclude pattern</param>
         /// <param name="match">Match pattern</param>
         /// <returns>List of files in the specified directory</returns>
-        public static string[] GetFilesInDirectory(string dir, string exclude, string match)
+        public static string[] GetFilesInDirectory(string directory, string exclude, string match)
         {
-            if (!FileUtils.DirectoryExistsLong(dir))
+            if (!DirectoryExistsLong(directory))
             {
                 return new string[0];
             }
@@ -70,7 +70,7 @@ namespace ChecksumVerifier
             try
             {
                 // gets all files in this directory
-                string[] files = GetFiles(dir, match, SearchOption.TopDirectoryOnly);
+                string[] files = GetFiles(directory, match, SearchOption.TopDirectoryOnly);
 
                 // now we have to apply our custom exlcusion patterns
                 if (!String.IsNullOrEmpty(exclude))
@@ -246,12 +246,12 @@ namespace ChecksumVerifier
 
             try
             {
-                files = Directory.GetFiles(dir, match, SearchOption.TopDirectoryOnly);
+                files = Directory.GetFiles(dir, match, searchOption);
             }
             catch (IOException)
             {
                 // try again with long path
-                files = Directory.GetFiles(@"\\?\" + dir, match, SearchOption.TopDirectoryOnly).Select(s => s.Replace(@"\\?\", "")).ToArray();
+                files = Directory.GetFiles(@"\\?\" + dir, match, searchOption).Select(s => s.Replace(@"\\?\", "")).ToArray();
             }
 
             return files;

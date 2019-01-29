@@ -157,9 +157,9 @@ namespace ChecksumVerifier
         }
 
         /// <inheritdoc />
-        public void UpdatedFile(string fileName)
+        public void UpdatedFile(string filePath)
         {
-            Console.WriteLine("Changes in {0}", fileName);
+            Console.WriteLine("Changes in {0}", filePath);
         }
     }
 }

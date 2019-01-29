@@ -73,7 +73,7 @@ namespace ChecksumVerifier
         }
 
         /// <inheritdoc />
-        public void UpdatedFile(string fileName)
+        public void UpdatedFile(string filePath)
         {
         }
     }
