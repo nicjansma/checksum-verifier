@@ -158,7 +158,7 @@ namespace ChecksumVerifier
                     }
                 }
             }
-            catch (IOException)
+            catch (Exception)
             {
                 hash = String.Empty;
             }
