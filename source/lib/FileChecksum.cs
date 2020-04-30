@@ -38,7 +38,7 @@ namespace ChecksumVerifier
 
             ResolvedFileName = GetFileName(FilePath, basePath, pathType);
 
-            Checksum = FileUtils.GetFileChecksum(fileName, checksumType);            
+            Checksum = FileUtils.GetFileChecksum(fileName, checksumType);
         }
         
         /// <summary>

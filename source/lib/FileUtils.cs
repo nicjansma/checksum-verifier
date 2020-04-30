@@ -111,6 +111,7 @@ namespace ChecksumVerifier
         /// <param name="fileName">File name</param>
         /// <param name="checksumType">Checksum type</param>
         /// <returns>File's checksum</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage(
             "Microsoft.Reliability", 
             "CA2000:Dispose objects before losing scope",
@@ -176,6 +177,48 @@ namespace ChecksumVerifier
         }
         
         /// <summary>
+        /// Determines if the file exists (supporting Long Paths)
+        /// </summary>
+        /// <param name="path">File Path</param>
+        /// <returns>True if the file exists</returns>
+        public static Boolean ExistsLong(string path)
+        {
+             return File.Exists(path) || File.Exists(@"\\?\" + path);
+        }
+
+        /// <summary>
+        /// Determines if the directory exists (supporting Long Paths)
+        /// </summary>
+        /// <param name="path">File Path</param>
+        /// <returns>True if the directory exists</returns>
+        public static Boolean DirectoryExistsLong(string path)
+        {
+             return Directory.Exists(path) || Directory.Exists(@"\\?\" + path);
+        }
+
+        /// <summary>
+        /// Gets all of the directories under a path
+        /// </summary>
+        /// <param name="path">File Path</param>
+        /// <returns>Directories under the path</returns>
+        public static string[] GetDirectories(String path)
+        {
+            String[] directories;
+
+            try
+            {
+                directories = Directory.GetDirectories(path);
+            }
+            catch (IOException)
+            {
+                // try again with long path
+                directories = Directory.GetDirectories(@"\\?\" + path).Select(s => s.Replace(@"\\?\", String.Empty)).ToArray();
+            }
+
+            return directories;
+        }
+
+        /// <summary>
         /// Convert a hash from bytes to a string
         /// </summary>
         /// <param name="hash">Byte array of hash</param>
@@ -192,51 +235,9 @@ namespace ChecksumVerifier
         }
 
         /// <summary>
-        /// Determines if the file exists (supporting Long Paths)
-        /// </summary>
-        /// <param name="path">Path</param>
-        /// <returns>True if the file exists</returns>
-        public static Boolean ExistsLong(string path)
-        {
-             return File.Exists(path) || File.Exists(@"\\?\" + path);
-        }
-
-        /// <summary>
-        /// Determines if the directory exists (supporting Long Paths)
-        /// </summary>
-        /// <param name="path">Path</param>
-        /// <returns>True if the directory exists</returns>
-        public static Boolean DirectoryExistsLong(string path)
-        {
-             return Directory.Exists(path) || Directory.Exists(@"\\?\" + path);
-        }
-
-        /// <summary>
-        /// Gets all of the directories under a path
-        /// </summary>
-        /// <param name="path">Path</param>
-        /// <returns>Directories under the path</returns>
-        public static string[] GetDirectories(String path)
-        {
-            String[] directories;
-
-            try
-            {
-                directories = Directory.GetDirectories(path);
-            }
-            catch (IOException)
-            {
-                // try again with long path
-                directories = Directory.GetDirectories(@"\\?\" + path).Select(s => s.Replace(@"\\?\", "")).ToArray();
-            }
-
-            return directories;
-        }
-
-        /// <summary>
         /// Gets all matching files
         /// </summary>
-        /// <param name="dir">Directory</param>
+        /// <param name="dir">Directory location</param>
         /// <param name="match">Files match</param>
         /// <param name="searchOption">Search options</param>
         /// <returns>Matching files</returns>
@@ -251,11 +252,10 @@ namespace ChecksumVerifier
             catch (IOException)
             {
                 // try again with long path
-                files = Directory.GetFiles(@"\\?\" + dir, match, searchOption).Select(s => s.Replace(@"\\?\", "")).ToArray();
+                files = Directory.GetFiles(@"\\?\" + dir, match, searchOption).Select(s => s.Replace(@"\\?\", String.Empty)).ToArray();
             }
 
             return files;
-    }
-
+        }
     }
 }
