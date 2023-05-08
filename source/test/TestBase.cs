@@ -94,7 +94,7 @@ namespace ChecksumVerifier.Test
             string subdirectory, 
             string excludePattern = "",
             string matchPattern = "*",
-            MatchType matchType = MatchType.Wildcard,
+            ChecksumVerifier.MatchType matchType = ChecksumVerifier.MatchType.Wildcard,
             PathType pathType = PathType.RelativePath,
             ChecksumType checksumType = ChecksumType.MD5)
         {

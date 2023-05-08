@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProductVersion>9.0.21022</ProductVersion>
     <RootNamespace>ChecksumVerifier</RootNamespace>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <FileUpgradeFlags />
     <UpgradeBackupLocation />
     <PublishUrl>publish\</PublishUrl>
@@ -29,11 +29,9 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>portable</DebugType>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>portable</DebugType>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>

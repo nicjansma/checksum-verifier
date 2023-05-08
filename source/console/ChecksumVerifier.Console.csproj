@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>ChecksumVerifier</AssemblyName>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,11 +27,9 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>portable</DebugType>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>portable</DebugType>
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>

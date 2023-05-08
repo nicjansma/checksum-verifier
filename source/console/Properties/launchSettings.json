@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ChecksumVerifier.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "-update -db T:\\net6db.xml -basePath T:\\Video"
+    }
+  }
+}
