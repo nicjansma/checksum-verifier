@@ -2,26 +2,25 @@
 // Copyright (c) 2014 Nic Jansma All Right Reserved
 // </copyright>
 // <author>Nic Jansma</author>
-namespace ChecksumVerifier
+namespace ChecksumVerifier;
+
+/// <summary>
+/// Represents the type of a "bad" file
+/// </summary>
+public enum BadFileType
 {
     /// <summary>
-    /// Represents the type of a "bad" file
+    /// The file is missing
     /// </summary>
-    public enum BadFileType
-    {
-        /// <summary>
-        /// The file is missing
-        /// </summary>
-        Missing,
+    Missing,
 
-        /// <summary>
-        /// The file has a different checksum than what's in the database
-        /// </summary>
-        DifferentChecksum,
+    /// <summary>
+    /// The file has a different checksum than what's in the database
+    /// </summary>
+    DifferentChecksum,
 
-        /// <summary>
-        /// The file is new
-        /// </summary>
-        New
-    }
+    /// <summary>
+    /// The file is new
+    /// </summary>
+    New
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>ChecksumVerifier</AssemblyName>
+    <AssemblyName>ChecksumVerifier.Console</AssemblyName>
     <TargetFramework>net6.0</TargetFramework>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -33,7 +33,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ChecksumVerifier.Program</StartupObject>
+    <StartupObject>ChecksumVerifier.Console.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>

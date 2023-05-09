@@ -3,31 +3,25 @@
 // </copyright>
 // <author>Nic Jansma</author>
 
-namespace ChecksumVerifier
+namespace ChecksumVerifier.Console;
+
+/// <summary>
+/// Command-line action to take
+/// </summary>
+public enum ProgramAction
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    /// <summary>
+    /// Invalid Action
+    /// </summary>
+    Invalid,
 
     /// <summary>
-    /// Command-line action to take
+    /// Update database
     /// </summary>
-    public enum ProgramAction
-    {
-        /// <summary>
-        /// Invalid Action
-        /// </summary>
-        Invalid,
+    Update,
 
-        /// <summary>
-        /// Update database
-        /// </summary>
-        Update,
-
-        /// <summary>
-        /// Verify database
-        /// </summary>
-        Verify
-    }
+    /// <summary>
+    /// Verify database
+    /// </summary>
+    Verify
 }
